@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Output of show_db.py</title>
+    <style>
+        body { font-family: monospace; background-color: #2b2b2b; color: #a9b7c6; padding: 40px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        h2 { color: #cc7832; }
+        .output { background-color: #1e1e1e; color: #a5c261; padding: 20px; border-radius: 8px; white-space: pre-wrap; border: 1px solid #555; }
+        .success { color: #a5c261; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Execution Result: show_db.py</h2>
+        <div class="output success">Connected to MongoDB at mongodb://localhost:27018/phishing_detection_db
+Database: phishing_detection_db
+
+Total Collections: 10
+----------------------------------------
+Collection: dataset_metadata     | Documents: 3
+Collection: emails               | Documents: 110
+Collection: feedback             | Documents: 4
+Collection: inbox_scans          | Documents: 4
+Collection: model_metadata       | Documents: 1
+Collection: predictions          | Documents: 410
+Collection: system_logs          | Documents: 197
+Collection: threat_intel_cache   | Documents: 81
+Collection: user_oauth_tokens    | Documents: 0
+Collection: users                | Documents: 25</div>
+    </div>
+</body>
+</html>

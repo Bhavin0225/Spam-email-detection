@@ -1,0 +1,62 @@
+services:
+  database:
+    image: mongo:8.0
+    container_name: spam_detection_db
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongo_db_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: spam_detection_backend
+    ports:
+      - "8000:8000"
+    depends_on:
+      database:
+        condition: service_healthy
+    volumes:
+      - ./backend/tests:/app/tests:ro
+      - ./backend/scripts:/app/scripts:ro
+    environment:
+      - MONGODB_URI=mongodb://database:27017/phishing_detection_db
+      - MONGODB_DATABASE=phishing_detection_db
+      - JWT_SECRET_KEY=docker-compose-secret-key-minimum-256-bits-long-random-string-123456
+      - JWT_REFRESH_SECRET_KEY=docker-compose-refresh-secret-key-minimum-256-bits-long-random-string-123456
+      - ACCESS_TOKEN_EXPIRE_MINUTES=30
+      - REFRESH_TOKEN_EXPIRE_DAYS=7
+      - DECISION_THRESHOLD=0.65
+      - ACTIVE_MODEL_VERSION=v1.0.0
+      - CORS_ORIGINS=http://localhost:3000
+      - SENTRY_DSN=
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID:-}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET:-}
+      - GOOGLE_REDIRECT_URI=${GOOGLE_REDIRECT_URI:-http://localhost:3000/inbox/gmail/callback}
+      - INBOX_SCAN_LIMIT_MAX=200
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - VITE_API_URL=http://localhost:8000
+    container_name: spam_detection_frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+volumes:
+  mongo_db_data:

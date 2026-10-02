@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  --color-bg-dark: #080c14;
+  --color-card-dark: #0d1424;
+  --color-border-dark: rgba(255, 255, 255, 0.07);
+  
+  --color-brand-emerald: #10b981;
+  --color-brand-mint: #00f5a0;
+  --color-brand-red: #ef4444;
+  --color-brand-amber: #f59e0b;
+  --color-brand-slate: #94a3b8;
+  --color-brand-darkslate: #64748b;
+  
+  --font-sans: 'Inter', sans-serif;
+  --font-mono: 'Fira Code', monospace;
+}
+
+body {
+  background-color: #080c14;
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+/* Base custom classes */
+.font-mono {
+  font-family: 'Fira Code', monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+.glass-card {
+  background-color: #0d1424;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  transition: all 0.2s ease-in-out;
+}
+
+.glass-card:hover {
+  border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+.emerald-glow {
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #080c14;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.text-body {
+  color: #94a3b8;
+}
+.text-muted {
+  color: #64748b;
+}

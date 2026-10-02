@@ -1,0 +1,39 @@
+services:
+  # Backend Web Service
+  - type: web
+    name: spam-detection-backend
+    env: docker
+    dockerfilePath: backend/Dockerfile
+    plan: starter
+    healthCheckPath: /health
+    envVars:
+      - key: MONGODB_URI
+        sync: false # User must specify Atlas connection string in dashboard
+      - key: MONGODB_DATABASE
+        value: phishing_detection_db
+      - key: JWT_SECRET_KEY
+        generateValue: true
+      - key: JWT_REFRESH_SECRET_KEY
+        generateValue: true
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: "30"
+      - key: REFRESH_TOKEN_EXPIRE_DAYS
+        value: "7"
+      - key: DECISION_THRESHOLD
+        value: "0.65"
+      - key: ACTIVE_MODEL_VERSION
+        value: "v1.0.0"
+      - key: CORS_ORIGINS
+        value: "https://spam-detection-console.onrender.com"
+      - key: LOG_LEVEL
+        value: INFO
+
+  # Frontend Static Server (using Nginx container for SPA routing support)
+  - type: web
+    name: spam-detection-frontend
+    env: docker
+    dockerfilePath: frontend/Dockerfile
+    plan: starter
+    envVars:
+      - key: VITE_API_URL
+        value: https://spam-detection-backend.onrender.com
